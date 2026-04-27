@@ -1,54 +1,43 @@
-import styled from "styled-components"
+import styled, { ThemeProvider } from "styled-components"
 import { GlobalStyle, AppRoutes, Sidebar } from "./index"
 import { Device } from "./styles/breakpoints"
+import { useThemeStore } from "./store/ThemeStore"
+import { useState } from "react"
 
 function App() {
-
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { themeStyles } = useThemeStore()
   return (
-    <ContenedorGeneral>
-      <GlobalStyle />
-      <section className="contentSidebar">
-        <Sidebar />
-      </section>
-      <section className="contentPrincipal">Principal</section>
-      <section className="contentRouters">
-        <AppRoutes />
-      </section>
-    </ContenedorGeneral>
+    <ThemeProvider theme={themeStyles}>
+      <ContenedorGeneral>
+        <GlobalStyle />
+        <section className="contentSidebar">
+          <Sidebar state={sidebarOpen} setState={setSidebarOpen} />
+        </section>
+        <section className="contentRouters">
+          <AppRoutes />
+        </section>
+      </ContenedorGeneral>
+    </ThemeProvider>
   )
 }
 
 const ContenedorGeneral = styled.main`
-  display: grid;
-  grid-template-columns: 1fr;
-  background-color: black;
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background-color: ${({ theme }) => theme.bgtotal};
+  overflow: hidden;
 
-  .contentSidebar{
-    display: none;
-    background-color: blue;
-  }
-  .contentPrincipal{
-    position: absolute;
-    background-color: red;
-  }
-  .contentRouters{
-    background-color: green;
-    grid-column: 1;
-    width: 100%;
+  .contentSidebar {
+    z-index: 100;
   }
 
-  @media ${Device.tablet} {
-    grid-template-columns: 88px 1fr;
-
-    .contentSidebar{
-      display: initial;
-    }
-    .contentPrincipal{
-      display: none;
-    }
-    .contentRouters{
-      grid-column: 2;
-    }
+  .contentRouters {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: ${({ theme }) => theme.bgtotal};
   }
 `
 
