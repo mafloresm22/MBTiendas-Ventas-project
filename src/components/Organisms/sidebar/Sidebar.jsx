@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import {
-    LinksArray,
-    SecondarylinksArray,
-    ToggleTema,
+  LinksArray,
+  SecondarylinksArray,
+  ToggleTema,
 } from "../../../index";
 import { v } from "../../../styles/variables";
 import { NavLink } from "react-router-dom";
@@ -10,87 +10,87 @@ import { Icon } from "@iconify/react";
 
 
 export function Sidebar({ state, setState }) {
-    return (
-        <Main $isopen={state.toString()}>
-            {/* Mobile Overlay */}
-            {state && <MobileOverlay onClick={() => setState(false)} />}
+  return (
+    <Main $isopen={state.toString()}>
+      {/* Mobile Overlay */}
+      {state && <MobileOverlay onClick={() => setState(false)} />}
 
-            {/* Mobile Hamburger Button */}
-            {!state && (
-                <MobileToggle onClick={() => setState(true)}>
-                    <Icon icon="ph:list-bold" />
-                </MobileToggle>
-            )}
+      {/* Mobile Hamburger Button */}
+      {!state && (
+        <MobileToggle onClick={() => setState(true)}>
+          <Icon icon="ph:list-bold" />
+        </MobileToggle>
+      )}
 
-            <Container $isopen={state.toString()}>
-                {/* Mobile Close Button */}
-                <MobileClose onClick={() => setState(false)}>
-                    <Icon icon="ph:x-bold" />
-                </MobileClose>
+      <Container $isopen={state.toString()}>
+        {/* Mobile Close Button */}
+        <MobileClose onClick={() => setState(false)}>
+          <Icon icon="ph:x-bold" />
+        </MobileClose>
 
-                <div className="Logocontent">
-                    <div className="imgcontent">
-                        <img src={v.logo} alt="Logo" />
-                    </div>
-                    <h2 className="title">Ada369 3.0</h2>
+        <div className="Logocontent">
+          <div className="imgcontent">
+            <img src={v.logo} alt="Logo" />
+          </div>
+          <h2 className="title">MBTienda</h2>
+        </div>
+
+        <NavLinks $isopen={state.toString()}>
+          <div className="SectionTitle">MENÚ PRINCIPAL</div>
+          {LinksArray.map(({ icon, label, to }) => (
+            <div className="LinkContainer" key={label}>
+              <NavLink
+                to={to}
+                className={({ isActive }) => `Links${isActive ? ` active` : ``}`}
+              >
+                <div className="content">
+                  <Icon className="Linkicon" icon={icon} />
+                  <span className="label_text">{label}</span>
                 </div>
+              </NavLink>
+            </div>
+          ))}
 
-                <NavLinks $isopen={state.toString()}>
-                    <div className="SectionTitle">MENÚ PRINCIPAL</div>
-                    {LinksArray.map(({ icon, label, to }) => (
-                        <div className="LinkContainer" key={label}>
-                            <NavLink
-                                to={to}
-                                className={({ isActive }) => `Links${isActive ? ` active` : ``}`}
-                            >
-                                <div className="content">
-                                    <Icon className="Linkicon" icon={icon} />
-                                    <span className="label_text">{label}</span>
-                                </div>
-                            </NavLink>
-                        </div>
-                    ))}
+          <Divider />
 
-                    <Divider />
+          <div className="SectionTitle">CONFIGURACIÓN</div>
+          {SecondarylinksArray.map(({ icon, label, to, color }) => (
+            <div className="LinkContainer" key={label}>
+              <NavLink
+                to={to}
+                className={({ isActive }) => `Links${isActive ? ` active` : ``}`}
+              >
+                <div className="content">
+                  <Icon color={color} className="Linkicon" icon={icon} />
+                  <span className="label_text">{label}</span>
+                </div>
+              </NavLink>
+            </div>
+          ))}
 
-                    <div className="SectionTitle">CONFIGURACIÓN</div>
-                    {SecondarylinksArray.map(({ icon, label, to, color }) => (
-                        <div className="LinkContainer" key={label}>
-                            <NavLink
-                                to={to}
-                                className={({ isActive }) => `Links${isActive ? ` active` : ``}`}
-                            >
-                                <div className="content">
-                                    <Icon color={color} className="Linkicon" icon={icon} />
-                                    <span className="label_text">{label}</span>
-                                </div>
-                            </NavLink>
-                        </div>
-                    ))}
+          <div className="LinkContainer">
+            <div className="Links" style={{ cursor: "pointer" }}>
+              <div className="content">
+                <Icon
+                  color="#ec3616"
+                  className="Linkicon"
+                  icon="ph:dots-three-circle-bold"
+                />
+                <span className="label_text">Más Opciones</span>
+              </div>
+            </div>
+          </div>
+        </NavLinks>
 
-                    <div className="LinkContainer">
-                        <div className="Links" style={{ cursor: "pointer" }}>
-                            <div className="content">
-                                <Icon
-                                    color="#ec3616"
-                                    className="Linkicon"
-                                    icon="ph:dots-three-circle-bold"
-                                />
-                                <span className="label_text">Más Opciones</span>
-                            </div>
-                        </div>
-                    </div>
-                </NavLinks>
-
-                <FooterWrapper $isopen={state.toString()}>
-                    <ToggleTema />
-                    <button className="SidebarCollapseBtn" onClick={() => setState(!state)}>
-                        <Icon icon={state ? "ph:caret-line-left-bold" : "ph:caret-line-right-bold"} />
-                    </button>
-                </FooterWrapper>
-            </Container>
-        </Main>
-    );
+        <FooterWrapper $isopen={state.toString()}>
+          <ToggleTema />
+          <button className="SidebarCollapseBtn" onClick={() => setState(!state)}>
+            <Icon icon={state ? "ph:caret-line-left-bold" : "ph:caret-line-right-bold"} />
+          </button>
+        </FooterWrapper>
+      </Container>
+    </Main>
+  );
 }
 
 const MobileOverlay = styled.div`

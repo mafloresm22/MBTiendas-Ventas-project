@@ -55,12 +55,12 @@ export const SecondarylinksArray = [
 //temas
 export const TemasData = [
     {
-        icono: "🌞",
+        icono: "ph:sun-bold",
         descripcion: "light",
 
     },
     {
-        icono: "🌚",
+        icono: "ph:moon-bold",
         descripcion: "dark",
 
     },
