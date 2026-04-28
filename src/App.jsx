@@ -1,6 +1,5 @@
 import styled, { ThemeProvider } from "styled-components"
 import { GlobalStyle, AppRoutes, Sidebar } from "./index"
-import { Device } from "./styles/breakpoints"
 import { useThemeStore } from "./store/ThemeStore"
 import { useState } from "react"
 
@@ -9,7 +8,7 @@ function App() {
   const { themeStyles } = useThemeStore()
   return (
     <ThemeProvider theme={themeStyles}>
-      <ContenedorGeneral>
+      <ContenedorGeneral className={sidebarOpen ? "active" : ""}>
         <GlobalStyle />
         <section className="contentSidebar">
           <Sidebar state={sidebarOpen} setState={setSidebarOpen} />
@@ -39,6 +38,7 @@ const ContenedorGeneral = styled.main`
     overflow-y: auto;
     background-color: ${({ theme }) => theme.bgtotal};
   }
+  
 `
 
 export default App

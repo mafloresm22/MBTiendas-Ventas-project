@@ -155,7 +155,7 @@ const MobileClose = styled.button`
 `;
 
 const Main = styled.div`
-  width: ${({ $isopen }) => ($isopen === "true" ? "260px" : "80px")};
+  width: ${({ $isopen }) => ($isopen === "true" ? v.sidebarWidth : v.sidebarWidthInitial)};
   height: 100vh;
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
@@ -181,7 +181,7 @@ const Container = styled.div`
     position: fixed;
     top: 0;
     left: 0;
-    width: 280px;
+    width: 260px;
     transform: ${({ $isopen }) => ($isopen === "true" ? "translateX(0)" : "translateX(-100%)")};
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: ${({ $isopen }) => ($isopen === "true" ? "4px 0 20px rgba(0,0,0,0.2)" : "none")};
@@ -341,11 +341,10 @@ const FooterWrapper = styled.div`
     }
 
     @media (max-width: 768px) {
-      display: none; /* Mobile uses the close button at the top */
+      display: none; 
     }
   }
 
-  /* Hide the toggle text when closed to fit in the 80px space */
   .label {
     display: ${({ $isopen }) => ($isopen === "true" ? "block" : "none")};
   }
