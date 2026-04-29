@@ -1,12 +1,41 @@
 import { useState, useEffect } from "react"
 import styled, { keyframes } from "styled-components"
-import { Btnsave, InputText2, Title, Linea } from "../../index"
-import { v } from '../../styles/variables'
-import { Device } from "../../index"
+import { Btnsave, InputText2, Title, Mensajes, Device } from "../../index"
 import { loginImages } from '../../assets/images/index'
+import { useAuthStore } from "../../store/AuthStore";
+import { useNavigate } from "react-router-dom";
 
 export function LoginTemplates() {
     const [currentImage, setCurrentImage] = useState(0);
+
+    const { user, iniciarSesion, cerrarSesion } = useAuthStore();
+    const navigate = useNavigate();
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [alerta, setAlerta] = useState({ visible: false, tipo: "", titulo: "", texto: "", onConfirm: null });
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await iniciarSesion(email, password);
+            setAlerta({
+                visible: true,
+                tipo: "success",
+                titulo: "¡Bienvenido!",
+                texto: "Inicio de sesión exitoso.",
+                onConfirm: () => navigate("/")
+            });
+        } catch (error) {
+            setAlerta({
+                visible: true,
+                tipo: "error",
+                titulo: "Error",
+                texto: "Credenciales incorrectas. Inténtalo de nuevo.",
+                onConfirm: () => setAlerta((prev) => ({ ...prev, visible: false }))
+            });
+        }
+    };
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -41,29 +70,46 @@ export function LoginTemplates() {
                         <p className="subtitle">Ingrese sus credenciales para acceder a su panel</p>
                     </div>
 
-                    <form action="">
+                    <form onSubmit={handleSubmit}>
                         <InputText2>
                             <label htmlFor="email" className="form__label">Correo Electrónico</label>
-                            <input type="email" id="email" className="form__field" placeholder="ejemplo@empresa.com" />
+                            <input
+                                type="email"
+                                id="email"
+                                className="form__field"
+                                placeholder="ejemplo@empresa.com"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
                         </InputText2>
 
                         <InputText2>
                             <label htmlFor="password" className="form__label">Contraseña</label>
-                            <input type="password" id="password" className="form__field" placeholder="••••••••" />
+                            <input
+                                type="password"
+                                id="password"
+                                className="form__field"
+                                placeholder="••••••••"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
                         </InputText2>
 
                         <div className="btn-container">
                             <Btnsave titulo="Iniciar Sesión" type="submit" bgcolor="#0d6efd" color="#fff" width="100%" />
                         </div>
                     </form>
-
-                    <Linea>O ingresar con</Linea>
-
-                    <div className="btn-container">
-                        <Btnsave titulo="Continuar con Google" bgcolor="transparent" color={({ theme }) => theme.text} icono={<v.iconogoogle />} width="100%"></Btnsave>
-                    </div>
                 </div>
             </section>
+            <Mensajes
+                visible={alerta.visible}
+                tipo={alerta.tipo}
+                titulo={alerta.titulo}
+                texto={alerta.texto}
+                onConfirm={alerta.onConfirm}
+            />
         </ContenedorLogin>
     )
 }

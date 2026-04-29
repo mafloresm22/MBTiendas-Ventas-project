@@ -1,8 +1,11 @@
-import { HomeTemplates } from "../index"
+import { Footer, HomeTemplates } from "../index"
 
 export function Home() {
     return (
-        <HomeTemplates />
+        <>
+            <HomeTemplates />
+            <Footer />
+        </>
     )
 }
 
