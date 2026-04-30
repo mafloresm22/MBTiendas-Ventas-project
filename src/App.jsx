@@ -1,18 +1,30 @@
 import styled, { ThemeProvider } from "styled-components"
-import { GlobalStyle, AppRoutes, Sidebar } from "./index"
+import { GlobalStyle, AppRoutes, Sidebar, useAuthStore } from "./index"
 import { useThemeStore } from "./store/ThemeStore"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useLocation } from "react-router-dom"
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { themeStyles } = useThemeStore()
+  const { pathname } = useLocation()
+  const { observarSesion } = useAuthStore()
+
+  useEffect(() => {
+    observarSesion()
+  }, [])
+
   return (
     <ThemeProvider theme={themeStyles}>
       <ContenedorGeneral className={sidebarOpen ? "active" : ""}>
         <GlobalStyle />
-        <section className="contentSidebar">
-          <Sidebar state={sidebarOpen} setState={setSidebarOpen} />
-        </section>
+
+        {pathname !== "/login" && (
+          <section className="contentSidebar">
+            <Sidebar state={sidebarOpen} setState={setSidebarOpen} />
+          </section>
+        )}
+
         <section className="contentRouters">
           <AppRoutes />
         </section>
@@ -38,7 +50,6 @@ const ContenedorGeneral = styled.main`
     overflow-y: auto;
     background-color: ${({ theme }) => theme.bgtotal};
   }
-  
 `
 
 export default App

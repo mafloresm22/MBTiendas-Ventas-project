@@ -4,6 +4,7 @@ import { supabase } from "../supabase/supabase.config";
 export const useAuthStore = create((set) => ({
     user: null,
     isAuth: false,
+    authLoading: true,
 
     iniciarSesion: async (email, password) => {
         try {
@@ -21,6 +22,23 @@ export const useAuthStore = create((set) => ({
             console.error("Error al iniciar sesión:", error.message);
             throw error;
         }
+    },
+
+    observarSesion: () => {
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            if (session) {
+                set({ user: session.user, isAuth: true });
+            }
+            set({ authLoading: false });
+        });
+
+        supabase.auth.onAuthStateChange(async (event, session) => {
+            if (session) {
+                set({ user: session.user, isAuth: true, authLoading: false });
+            } else {
+                set({ user: null, isAuth: false, authLoading: false });
+            }
+        });
     },
 
     cerrarSesion: async () => {

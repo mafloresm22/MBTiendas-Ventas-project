@@ -3,6 +3,7 @@ import {
   LinksArray,
   SecondarylinksArray,
   ToggleTema,
+  useAuthStore,
 } from "../../../index";
 import { v } from "../../../styles/variables";
 import { NavLink } from "react-router-dom";
@@ -10,6 +11,7 @@ import { Icon } from "@iconify/react";
 
 
 export function Sidebar({ state, setState }) {
+  const { user, cerrarSesion } = useAuthStore();
   return (
     <Main $isopen={state.toString()}>
       {/* Mobile Overlay */}
@@ -34,6 +36,15 @@ export function Sidebar({ state, setState }) {
           </div>
           <h2 className="title">MBTienda</h2>
         </div>
+        <UserContainer $isopen={state.toString()}>
+          <div className="user-icon">
+            <Icon icon="solar:user-bold-duotone" />
+          </div>
+          <div className="user-details">
+            <span className="user-name">Bienvenido</span>
+            <span className="user-email">{user?.email}</span>
+          </div>
+        </UserContainer>
 
         <NavLinks $isopen={state.toString()}>
           <div className="SectionTitle">MENÚ PRINCIPAL</div>
@@ -79,6 +90,25 @@ export function Sidebar({ state, setState }) {
                 <span className="label_text">Más Opciones</span>
               </div>
             </div>
+          </div>
+
+          <div className="LinkContainer">
+            <NavLink
+              to="/login"
+              onClick={async () => {
+                await cerrarSesion();
+              }}
+              className="Links"
+            >
+              <div className="content">
+                <Icon
+                  color="#ec3616"
+                  className="Linkicon"
+                  icon="ph:sign-out-bold"
+                />
+                <span className="label_text">Cerrar sesión</span>
+              </div>
+            </NavLink>
           </div>
         </NavLinks>
 
@@ -191,8 +221,8 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: ${({ $isopen }) => ($isopen === "true" ? "flex-start" : "center")};
-    padding: 24px 20px;
-    height: 80px;
+    padding: 16px 20px;
+    height: auto;
     border-bottom: 1px solid transparent;
     
     .imgcontent {
@@ -227,11 +257,61 @@ const Container = styled.div`
   }
 `;
 
+const UserContainer = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 12px;
+  margin-bottom: 8px;
+  opacity: ${({ $isopen }) => ($isopen === "true" ? "1" : "0")};
+  transition: opacity 0.3s ease;
+  overflow: hidden;
+
+  .user-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: ${({ theme }) => theme.bgAlpha};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: ${({ theme }) => theme.text};
+    flex-shrink: 0;
+    svg {
+        font-size: 20px;
+    }
+  }
+
+  .user-details {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    
+    .user-name {
+      font-size: 11px;
+      font-weight: 700;
+      color: ${({ theme }) => theme.colorSubtitle};
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .user-email {
+      font-size: 13px;
+      font-weight: 600;
+      color: ${({ theme }) => theme.text};
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 150px;
+    }
+  }
+`;
+
 const NavLinks = styled.div`
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 16px 0;
+  padding: 8px 0;
 
   &::-webkit-scrollbar {
     width: 4px;
@@ -246,8 +326,8 @@ const NavLinks = styled.div`
     font-weight: 700;
     color: ${(props) => props.theme.colorSubtitle};
     padding: 0 20px;
-    margin-bottom: 8px;
-    margin-top: 16px;
+    margin-bottom: 4px;
+    margin-top: 8px;
     opacity: ${({ $isopen }) => ($isopen === "true" ? "1" : "0")};
     white-space: nowrap;
     overflow: hidden;
@@ -260,12 +340,12 @@ const NavLinks = styled.div`
   }
 
   .Links {
-    border-radius: 6px; /* Sharper, more professional corners */
+    border-radius: 6px;
     display: flex;
     align-items: center;
     text-decoration: none;
     color: ${(props) => props.theme.text};
-    height: 40px; /* Tighter height */
+    height: 40px;
     transition: all 0.2s ease;
     overflow: hidden;
     
@@ -273,7 +353,7 @@ const NavLinks = styled.div`
       display: flex;
       align-items: center;
       width: 100%;
-      padding: 0 12px; /* Tighter padding */
+      padding: 0 12px;
       
       .Linkicon {
         font-size: 20px;
@@ -298,7 +378,7 @@ const NavLinks = styled.div`
       background: ${(props) => props.theme.bgAlpha};
       color: ${(props) => props.theme.color1};
       font-weight: 600;
-      box-shadow: inset 3px 0 0 ${(props) => props.theme.color1}; /* Minimalist indicator */
+      box-shadow: inset 3px 0 0 ${(props) => props.theme.color1};
     }
   }
 `;
