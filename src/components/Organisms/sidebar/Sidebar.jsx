@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Swal from "sweetalert2";
 import {
   LinksArray,
   SecondarylinksArray,
@@ -93,12 +94,27 @@ export function Sidebar({ state, setState }) {
           </div>
 
           <div className="LinkContainer">
-            <NavLink
-              to="/login"
+            <div
               onClick={async () => {
-                await cerrarSesion();
+                Swal.fire({
+                  title: "¿Estás seguro?",
+                  text: "¿Quieres cerrar tu sesión?",
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonColor: "#3085d6",
+                  cancelButtonColor: "#d33",
+                  confirmButtonText: "Sí, cerrar sesión",
+                  cancelButtonText: "Cancelar",
+                  background: "rgba(255, 255, 255, 0.9)",
+                  backdrop: `rgba(0,0,123,0.4)`,
+                }).then(async (result) => {
+                  if (result.isConfirmed) {
+                    await cerrarSesion();
+                  }
+                });
               }}
               className="Links"
+              style={{ cursor: "pointer" }}
             >
               <div className="content">
                 <Icon
@@ -108,7 +124,7 @@ export function Sidebar({ state, setState }) {
                 />
                 <span className="label_text">Cerrar sesión</span>
               </div>
-            </NavLink>
+            </div>
           </div>
         </NavLinks>
 
