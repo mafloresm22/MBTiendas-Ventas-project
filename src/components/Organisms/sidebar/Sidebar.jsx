@@ -37,15 +37,6 @@ export function Sidebar({ state, setState }) {
           </div>
           <h2 className="title">MBTienda</h2>
         </div>
-        <UserContainer $isopen={state.toString()}>
-          <div className="user-icon">
-            <Icon icon="solar:user-bold-duotone" />
-          </div>
-          <div className="user-details">
-            <span className="user-name">Bienvenido</span>
-            <span className="user-email">{user?.email}</span>
-          </div>
-        </UserContainer>
 
         <NavLinks $isopen={state.toString()}>
           <div className="SectionTitle">MENÚ PRINCIPAL</div>
@@ -105,8 +96,8 @@ export function Sidebar({ state, setState }) {
                   cancelButtonColor: "#d33",
                   confirmButtonText: "Sí, cerrar sesión",
                   cancelButtonText: "Cancelar",
-                  background: "rgba(255, 255, 255, 0.9)",
-                  backdrop: `rgba(0,0,123,0.4)`,
+                  background: "#f0f2f5",
+                  backdrop: "rgba(45, 55, 72, 0.7)",
                 }).then(async (result) => {
                   if (result.isConfirmed) {
                     await cerrarSesion();
@@ -269,56 +260,6 @@ const Container = styled.div`
       overflow: hidden;
       white-space: nowrap;
       transition: opacity 0.3s ease;
-    }
-  }
-`;
-
-const UserContainer = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 0 20px;
-  gap: 12px;
-  margin-bottom: 8px;
-  opacity: ${({ $isopen }) => ($isopen === "true" ? "1" : "0")};
-  transition: opacity 0.3s ease;
-  overflow: hidden;
-
-  .user-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: ${({ theme }) => theme.bgAlpha};
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: ${({ theme }) => theme.text};
-    flex-shrink: 0;
-    svg {
-        font-size: 20px;
-    }
-  }
-
-  .user-details {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    
-    .user-name {
-      font-size: 11px;
-      font-weight: 700;
-      color: ${({ theme }) => theme.colorSubtitle};
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .user-email {
-      font-size: 13px;
-      font-weight: 600;
-      color: ${({ theme }) => theme.text};
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 150px;
     }
   }
 `;

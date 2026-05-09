@@ -1,11 +1,11 @@
 import styled, { ThemeProvider } from "styled-components"
-import { GlobalStyle, AppRoutes, Sidebar, useAuthStore } from "./index"
+import { GlobalStyle, AppRoutes, Sidebar, useAuthStore, Header } from "./index"
 import { useThemeStore } from "./store/ThemeStore"
 import { useState, useEffect } from "react"
 import { useLocation } from "react-router-dom"
 
 function App() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const { themeStyles } = useThemeStore()
   const { pathname } = useLocation()
   const { observarSesion } = useAuthStore()
@@ -26,6 +26,7 @@ function App() {
         )}
 
         <section className="contentRouters">
+          {pathname !== "/login" && <Header />}
           <AppRoutes />
         </section>
       </ContenedorGeneral>

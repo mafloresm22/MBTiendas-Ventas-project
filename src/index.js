@@ -23,4 +23,5 @@ export * from './components/Organisms/ToggleTema';
 export * from './components/templates/HomeTemplates';
 export * from './components/templates/LoginTemplates';
 export * from './components/Organisms/forms/InputText2';
+export * from './components/Organisms/Header';
 export * from './components/Organisms/sidebar/Sidebar';
